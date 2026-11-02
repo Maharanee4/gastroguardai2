@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" fill="none">
+  <rect width="760" height="620" rx="28" fill="#E8EEE3"/>
+  <path d="M-12 125c88-58 183-61 279-17 92 43 161 42 247-2 87-44 160-43 258 1M-8 153c83-50 168-51 255-11 101 47 184 50 281 1 82-41 157-42 242-5M-6 182c76-42 151-41 230-5 109 50 207 57 316 1 73-37 145-39 226-10M-5 477c95-49 189-47 280 2 87 47 166 51 258 4 85-44 157-44 237-4M-4 508c84-42 165-38 247 6 99 53 189 61 296 6 73-37 145-40 224-8M-3 539c73-34 143-29 216 11 111 60 212 68 335 7 62-31 126-34 212-13" stroke="#CBD7C7" stroke-width="2"/>
+  <path d="M556 76c59 11 108 44 136 90 24 40 29 88 11 133" stroke="#AEBEAA" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 9"/>
+  <circle cx="656" cy="286" r="14" fill="#0F766E"/>
+  <circle cx="656" cy="286" r="6" fill="#FAF9F6"/>
+  <path d="M650 303c-28 35-36 56-36 75a42 42 0 0 0 84 0c0-19-8-40-36-75a8 8 0 0 0-12 0Z" fill="#0F766E"/>
+  <circle cx="656" cy="377" r="12" fill="#FAF9F6"/>
+  <rect x="82" y="86" width="310" height="45" rx="22.5" fill="#FAF9F6"/>
+  <circle cx="108" cy="108.5" r="6" fill="#F59E0B"/>
+  <text x="126" y="114" fill="#456253" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="1.2">MAKAN LOKAL, LEBIH SIAP</text>
+  <ellipse cx="374" cy="368" rx="220" ry="183" fill="#D3DDD0"/>
+  <ellipse cx="368" cy="347" rx="208" ry="171" fill="#FFFFFF" stroke="#D8DCD3" stroke-width="3"/>
+  <ellipse cx="368" cy="347" rx="172" ry="137" fill="#F7F4EC" stroke="#E3E1D8" stroke-width="2"/>
+  <path d="M218 325c23-43 62-66 99-64 21 1 38 11 48 29 14 25 4 58-24 80-30 24-77 27-111 7-22-13-26-31-12-52Z" fill="#F2D28A"/>
+  <path d="M232 320c22-31 51-48 78-45 20 2 33 16 34 34 2 22-21 43-50 49-27 6-53-1-64-17-6-7-5-14 2-21Z" fill="#E8B95F"/>
+  <path d="M435 282c24-19 53-23 72-8 17 14 17 39 1 61-15 21-42 35-63 31-28-5-33-30-10-52Z" fill="#6D9361"/>
+  <path d="M455 282c8 14 9 28 2 40m23-49c5 13 4 27-4 40m23-28c-2 10-7 19-14 26" stroke="#426C4E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M282 399c28-28 66-42 104-36 32 5 53 24 50 46-4 29-46 51-91 48-38-2-67-19-70-39-1-7 2-13 7-19Z" fill="#C46E46"/>
+  <path d="M307 411c27-18 53-25 81-20m-67 42c22-12 44-17 66-14" stroke="#E9A577" stroke-width="5" stroke-linecap="round"/>
+  <path d="M401 367c19-16 45-21 64-12 17 9 20 27 7 42-14 17-42 25-61 17-20-8-24-31-10-47Z" fill="#F4F0E5"/>
+  <path d="M416 377c12-9 25-12 38-8m-35 21c9-6 19-8 29-6" stroke="#D6CDBB" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="274" cy="383" r="8" fill="#F59E0B"/>
+  <circle cx="294" cy="374" r="6" fill="#EAA94A"/>
+  <circle cx="259" cy="400" r="5" fill="#EAA94A"/>
+  <path d="M186 282v165m-16-165v54m32-54v54m-16-54v54m-16 0h32" stroke="#456253" stroke-width="5" stroke-linecap="round"/>
+  <path d="M558 286v162m-11-162v50m22-50v50m-11-50v50" stroke="#456253" stroke-width="5" stroke-linecap="round"/>
+  <rect x="451" y="503" width="220" height="54" rx="12" fill="#FAF9F6"/>
+  <text x="474" y="526" fill="#202B2A" font-family="Arial, sans-serif" font-size="14" font-weight="700">Pilihan yang lebih terinformasi</text>
+  <text x="474" y="544" fill="#737C78" font-family="Arial, sans-serif" font-size="11">Panduan pangan · kesehatan · perjalanan</text>
+</svg>

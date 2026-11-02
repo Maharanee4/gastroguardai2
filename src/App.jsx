@@ -5,6 +5,7 @@ import GastroBotPage from './pages/GastroBotPage';
 import Scan from './pages/Scan';
 import BottomNav from './components/BottomNav';
 import './index.css';
+import './styles/redesign.css';
 
 function AppLayout() {
   const location = useLocation();

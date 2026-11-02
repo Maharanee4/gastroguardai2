@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Camera, Sparkles, AlertTriangle, RotateCcw, Upload, SwitchCamera, ScanLine, Lightbulb, BookOpenCheck, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Camera, Sparkles, AlertTriangle, RotateCcw, Upload, SwitchCamera, ScanLine, Lightbulb, BookOpenCheck } from 'lucide-react';
 import { enqueueSheetsBackup } from '../lib/sheetsBackup';
 import { analyzeFoodOrDrinkImage } from '../lib/nutriApi';
 import { VERIFIED_FOODS, findVerifiedFood, normalizeFoodData } from '../../data/verifiedFoods';
 import { VERIFIED_DRINKS } from '../data/verifiedDrinks';
+import SiteHeader from '../components/SiteHeader';
 import './Scan.css';
 
 const SCAN_CATALOG = [
@@ -262,9 +262,10 @@ const Scan = () => {
           : 'Katalog memberi peringatan umum, bukan penilaian keamanan aktual. Pilih makanan matang menyeluruh dan hindari sajian yang lama berada di suhu ruang.';
 
   return (
+    <>
+    <SiteHeader/>
     <div className="scan-container">
       <header className="scan-header">
-        <Link to="/" className="scan-back-link"><ArrowLeft size={17}/> Beranda</Link>
         <div className="feature-heading">
           <ScanLine className="feature-heading-icon" />
           <h2 className="title">Scan Makanan & Minuman</h2>
@@ -467,6 +468,7 @@ const Scan = () => {
       <canvas ref={canvasRef} className="hidden-canvas" />
       <input ref={inputRef} className="hidden-file-input" type="file" accept="image/*" onChange={handleUpload} />
     </div>
+    </>
   );
 };
 export default Scan;
