@@ -174,6 +174,27 @@
   .gg-hero-note small{font-size:8px}
   .gg-hero-pin{left:4%;bottom:17px;font-size:7px}
 }
+/* A quieter, editorial visual system inspired by the reference site. */
+.gg-app{--teal:#426d57;--teal2:#5d8066;--mint:#edf2e9;--ink:#263b30;--muted:#748078;--line:#e6e8df;--coral:#c77a55;--paper:#fffefa;background:#f8f8f3;color:var(--ink)}
+.gg-header{height:72px;padding-inline:max(calc((100vw - 1160px)/2),24px);background:rgba(255,255,250,.96);border-color:#e9e9e1;backdrop-filter:blur(12px)}
+.gg-brand-mark{background:#426d57;box-shadow:none;border-radius:12px}
+.gg-desktop-nav{gap:26px}.gg-desktop-nav button{border:0;background:none;color:#56645b;font:inherit;font-size:12px;font-weight:650;padding:10px 0}.gg-desktop-nav button:hover{color:#426d57}
+.gg-emergency{background:#fbf1e9;border-color:#efdfd2;color:#a85e3b;border-radius:9px}
+.gg-app main{padding-inline:24px}
+.gg-hero{margin:28px 0 38px;min-height:355px;border-radius:20px;background:#355c49;box-shadow:0 14px 36px #253b3015}
+.gg-hero:after{border-color:#ffffff16;box-shadow:0 0 0 42px #ffffff06,0 0 0 88px #ffffff04}
+.gg-hero h1{font-weight:700;letter-spacing:-1.6px}.gg-hero h1 span{color:#d4dfbe}.gg-eyebrow{letter-spacing:.8px}.gg-sun{box-shadow:none}.gg-hero-note{border-radius:12px;box-shadow:0 10px 24px #172b2030}
+.gg-card,.gg-feature-card,.gg-weather{box-shadow:0 3px 14px #293c3010;border-color:#e7e8df;border-radius:15px}.gg-card:hover{box-shadow:0 8px 22px #293c3014}.gg-feature-card:hover{border-color:#c7d5c6}
+.gg-button{border-radius:9px}.gg-button-light{color:#355c49}.gg-section-icon,.gg-feature-icon,.gg-note-icon{border-radius:11px}
+.gg-mobile-nav{display:none!important}
+.gg-footer{padding-bottom:28px}
+@media(max-width:700px){
+ .gg-header{height:64px;padding-inline:16px}.gg-brand-mark{width:36px;height:36px}.gg-app main{padding-inline:16px}
+ .gg-hero{margin:16px 0 26px;min-height:0;border-radius:16px}.gg-hero-copy{padding:30px 24px 22px}.gg-hero h1{font-size:clamp(32px,9vw,42px);letter-spacing:-1.2px}
+ .gg-welcome-row{align-items:flex-start;gap:14px;margin-bottom:30px}.gg-welcome-row h2{font-size:21px}.gg-weather{padding:10px;gap:7px}.gg-temp{font-size:15px;margin-left:2px}.gg-section{margin-bottom:38px}.gg-section-head h2{font-size:20px;line-height:1.25}.gg-section-head p,.gg-overview-heading p{font-size:12px;line-height:1.65}
+ .gg-feature-grid{gap:10px}.gg-feature-card{padding:12px;grid-template-columns:40px minmax(0,1fr) 16px;gap:10px}.gg-feature-copy small{font-size:8px}.gg-feature-copy b{font-size:11px}.gg-feature-copy i{font-size:9px;line-height:1.4}
+}
+@media(max-width:380px){.gg-header{padding-inline:10px}.gg-app main{padding-inline:12px}.gg-account-actions{gap:4px}.gg-emergency{font-size:7px}.gg-welcome-row{flex-direction:column}.gg-weather{align-self:flex-start}}
 @media(max-width:380px){
   .gg-hero-art{height:178px;min-height:178px}
   .gg-hero-note{right:3%;padding:7px}

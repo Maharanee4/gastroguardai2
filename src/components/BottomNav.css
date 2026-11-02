@@ -1,120 +1,57 @@
 .bottom-nav {
+    --nav-height: 72px;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 480px;
-    /* match app-container */
-    left: 50%;
-    transform: translateX(-50%);
-    height: var(--bottom-nav-height);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.1);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
     z-index: 1000;
-    padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+    left: 50%;
+    right: auto;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(100% - 32px, 720px);
+    min-height: var(--nav-height);
+    padding: 8px 12px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #e7e7df;
+    border-radius: 18px;
+    background: rgba(255, 255, 252, .97);
+    box-shadow: 0 10px 35px rgba(30, 50, 41, .13);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .nav-item {
+    min-width: 0;
+    min-height: 50px;
+    padding: 6px 3px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    flex: 1;
-    padding: 6px 4px 4px;
-    min-width: 0;
+    align-items: center;
     gap: 4px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: #737b72;
+    font: inherit;
+    text-decoration: none;
+    transition: color .18s ease, background-color .18s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.nav-item:hover {
-    color: var(--primary);
-    transform: translateY(-2px);
+.nav-item svg { width: 20px; height: 20px; stroke-width: 1.8; flex: none; }
+.nav-item span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; line-height: 1.2; font-weight: 650; }
+.nav-item:hover, .nav-item.active { color: #356c57; background: #edf4eb; }
+.nav-item.active svg { stroke-width: 2.2; }
+.nav-item:focus-visible { outline: 2px solid #6a9c76; outline-offset: 2px; }
+
+@media (max-width: 420px) {
+    .bottom-nav { width: calc(100% - 20px); padding: 7px 5px; gap: 1px; }
+    .nav-item span { font-size: 9px; }
+    .nav-item svg { width: 19px; height: 19px; }
 }
 
-.nav-item.active {
-    color: var(--primary);
-}
-
-.nav-item span {
-    margin-top: 2px;
-    line-height: 1.1;
-    text-align: center;
-    white-space: nowrap;
-    font-size: 11px;
-}
-
-.icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 38px;
-    width: 38px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.nav-item.active .icon-container:not(.center-icon) {
-    background-color: var(--primary-surface);
-    color: var(--primary-dark);
-}
-
-.nav-item.active span {
-    font-weight: 600;
-}
-
-/* Center Check-in Icon - Prominent */
-.center-icon {
-    background-color: var(--primary);
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    transform: translateY(-8px);
-    box-shadow: 0 4px 12px rgba(42, 157, 143, 0.3);
-    margin-bottom: -8px;
-}
-
-.nav-item.active .center-icon {
-    background-color: var(--primary-dark);
-    box-shadow: 0 6px 16px rgba(42, 157, 143, 0.4);
-    transform: translateY(-10px);
-}
-
-.nav-item svg {
-    width: 23px;
-    height: 23px;
-    stroke-width: 2.1;
-}
-
-@media (min-width: 769px) {
-    .bottom-nav {
-        max-width: 620px;
-        height: 78px;
-        padding: 7px 14px;
-    }
-
-    .nav-item span { font-size: 12px; }
-    .nav-item svg { width: 24px; height: 24px; }
-}
-
-@media (max-width: 380px) {
-    .bottom-nav { padding-left: 3px; padding-right: 3px; }
-    .nav-item span { font-size: 10px; }
-    .nav-item svg { width: 21px; height: 21px; }
-    .icon-container { width: 34px; height: 34px; }
-}
-
-.chat-nav-item {
-    justify-content: center;
+@media (prefers-reduced-motion: reduce) {
+    .nav-item { transition: none; }
 }
