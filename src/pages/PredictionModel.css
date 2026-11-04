@@ -1,0 +1,336 @@
+.gg-model-stats {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.gg-prediction-fields {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gg-prediction-fields input[type="month"] {
+  display: block;
+  width: 100%;
+  height: 39px;
+  margin-top: 7px;
+  padding: 0 9px;
+  border: 1px solid #e2ebe7;
+  border-radius: 9px;
+  background: #fbfdfc;
+  color: #274b47;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.gg-forecast-visual {
+  margin: 15px 0;
+  padding: 16px 14px 10px;
+  overflow: hidden;
+  border: 1px solid #e5eee9;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #f8fcf9, #fff 76%);
+}
+
+.gg-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 7px 38px;
+  color: #71837d;
+  font-size: 9px;
+}
+
+.gg-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gg-chart-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.gg-chart-legend .actual {
+  background: #14877b;
+}
+
+.gg-chart-legend .forecast {
+  background: #e58a42;
+}
+
+.gg-chart-legend .range {
+  border: 1px solid #edb37e;
+  background: #f9e3ce;
+}
+
+.gg-forecast-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.gg-chart-axis-label {
+  fill: #8a9b94;
+  font: 11px Inter, sans-serif;
+}
+
+.gg-chart-axis-label.future {
+  fill: #a45b25;
+  font-weight: 700;
+}
+
+.gg-chart-note {
+  margin: 0;
+  color: #8a9993;
+  font-size: 8px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.gg-forecast-table-wrap {
+  margin: 15px 0;
+  overflow-x: auto;
+  border: 1px solid #e5eee9;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.gg-forecast-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.gg-forecast-table caption {
+  padding: 13px 14px 10px;
+  color: #355750;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.gg-forecast-table th,
+.gg-forecast-table td {
+  padding: 10px 12px;
+  border-top: 1px solid #edf2ef;
+  color: #62746e;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.gg-forecast-table thead th {
+  background: #f5f8f5;
+  color: #7d8c86;
+  font-size: 8px;
+  letter-spacing: .35px;
+}
+
+.gg-forecast-table tbody th {
+  color: #315a52;
+  font-weight: 750;
+}
+
+.gg-forecast-table tbody tr:nth-child(even) {
+  background: #fbfcfa;
+}
+
+.gg-forecast-table .positive {
+  color: #c46d32;
+  font-weight: 750;
+}
+
+.gg-forecast-table .negative {
+  color: #18816e;
+  font-weight: 750;
+}
+
+.gg-forecast-table-wrap > p {
+  margin: 0;
+  padding: 0 12px 12px;
+  color: #8a9993;
+  font-size: 8px;
+}
+
+.gg-method-card .gg-method-equation {
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+}
+
+.gg-prediction-page .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.gg-data-metadata {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.gg-data-metadata label,
+.gg-monthly-x-table input {
+  display: grid;
+  gap: 6px;
+  color: #71837d;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.gg-data-metadata input,
+.gg-monthly-x-table input {
+  width: 100%;
+  min-width: 90px;
+  height: 36px;
+  padding: 0 9px;
+  border: 1px solid #e2ebe7;
+  border-radius: 8px;
+  background: #fbfdfc;
+  color: #274b47;
+  font-size: 11px;
+}
+
+.gg-data-quality {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.gg-data-quality span {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid #e5eee9;
+  border-radius: 9px;
+  background: #f8fcf9;
+}
+
+.gg-data-quality small {
+  color: #82918b;
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.gg-data-quality b {
+  color: #315a52;
+  font-size: 10px;
+}
+
+.gg-data-warnings {
+  margin: 8px 0;
+  padding: 10px 12px;
+  border: 1px solid #f1d7b4;
+  border-radius: 9px;
+  background: #fffaf1;
+  color: #8a5c2e;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.gg-monthly-x-wrap {
+  margin-top: 13px;
+  overflow-x: auto;
+  border: 1px solid #e5eee9;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.gg-monthly-x-table {
+  width: 100%;
+  min-width: 610px;
+  padding: 12px;
+  border-spacing: 8px 5px;
+  text-align: left;
+}
+
+.gg-monthly-x-table caption {
+  padding: 6px 4px;
+  color: #355750;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.gg-monthly-x-table th {
+  color: #82918b;
+  font-size: 8px;
+}
+
+.gg-validation-section {
+  grid-column: 1 / -1;
+}
+
+.gg-validation-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.gg-validation-metrics span {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f5faf7;
+}
+
+.gg-validation-metrics small {
+  color: #82918b;
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.gg-validation-metrics b {
+  color: #315a52;
+  font-size: 15px;
+}
+
+.gg-validation-note {
+  margin: 8px 0 0;
+  color: #82918b;
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .gg-data-quality {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gg-data-metadata,
+  .gg-validation-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .gg-prediction-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .gg-model-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gg-forecast-visual {
+    padding: 12px 7px 9px;
+  }
+
+  .gg-chart-legend {
+    gap: 7px 12px;
+    margin-left: 27px;
+    font-size: 8px;
+  }
+
+  .gg-chart-axis-label {
+    font-size: 10px;
+  }
+}
