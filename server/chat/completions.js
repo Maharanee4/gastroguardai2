@@ -1,7 +1,7 @@
 import { json } from '../_lib/http.js';
 
 const GEMINI_MODEL = 'gemini-3.8-flash';
-const GEMINI_FALLBACK_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_FALLBACK_MODEL = 'gemini-3.5-flash-lite';
 const MAX_MESSAGES = 20;
 const MAX_MESSAGE_TEXT_LENGTH = 4000;
 const MAX_CONVERSATION_TEXT_LENGTH = 16000;

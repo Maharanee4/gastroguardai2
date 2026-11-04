@@ -29,6 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build site
+        env:
+          VITE_API_BASE_URL: https://gastroguardai2.vercel.app
         run: npm run build
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

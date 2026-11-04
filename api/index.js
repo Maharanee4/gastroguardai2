@@ -31,7 +31,26 @@ const routes = new Map([
   ['users/ensure', userEnsure],
 ]);
 
+const allowedOrigins = new Set([
+  'https://maharanee4.github.io',
+  ...(globalThis.process?.env?.CORS_ALLOWED_ORIGINS || '').split(',').map((origin) => origin.trim()).filter(Boolean),
+]);
+
 export default async function handler(req, res) {
+  const origin = req.headers?.origin;
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400');
+  }
+
+  if (req.method === 'OPTIONS') {
+    res.statusCode = origin && !allowedOrigins.has(origin) ? 403 : 204;
+    return res.end();
+  }
+
   const rawRoute = req.query?.route;
   const route = Array.isArray(rawRoute) ? rawRoute.join('/') : String(rawRoute || '');
   const routeHandler = routes.get(route.replace(/^\/+|\/+$/g, ''));
