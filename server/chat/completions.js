@@ -6,6 +6,7 @@ const MAX_MESSAGES = 20;
 const MAX_MESSAGE_TEXT_LENGTH = 4000;
 const MAX_CONVERSATION_TEXT_LENGTH = 16000;
 const MAX_RESPONSE_TOKENS = 1000;
+const GEMINI_REQUEST_TIMEOUT_MS = 12000;
 
 const messageContent = (message) => {
   if (typeof message.content === 'string') return message.content;
@@ -32,26 +33,42 @@ const callGemini = async ({ messages, max_tokens = 600, temperature = 0.7, model
   const apiKey = globalThis.process?.env?.GEMINI_API_KEY;
   if (!apiKey) return null;
 
-  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-goog-api-key': apiKey
-    },
-    body: JSON.stringify({
-      model,
-      input: normalizeMessagesText(messages),
-      system_instruction: getSystemInstruction(messages),
-      generation_config: {
-        max_output_tokens: max_tokens,
-        thinking_level: 'low',
-        temperature
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GEMINI_REQUEST_TIMEOUT_MS);
+  let response;
+  let data;
+  try {
+    response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
       },
-      store: false
-    })
-  });
+      body: JSON.stringify({
+        model,
+        input: normalizeMessagesText(messages),
+        system_instruction: getSystemInstruction(messages),
+        generation_config: {
+          max_output_tokens: max_tokens,
+          thinking_level: 'low',
+          temperature
+        },
+        store: false
+      }),
+      signal: controller.signal
+    });
+    data = await response.json();
+  } catch (error) {
+    if (controller.signal.aborted) {
+      const timeoutError = new Error(`Gemini request timed out after ${GEMINI_REQUEST_TIMEOUT_MS / 1000} seconds.`);
+      timeoutError.name = 'GeminiTimeoutError';
+      throw timeoutError;
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 
-  const data = await response.json();
   if (!response.ok) {
     const error = new Error(data?.error?.message || 'Gemini API error');
     error.status = response.status;
@@ -116,7 +133,7 @@ export default async function handler(req, res) {
     try {
       geminiResult = await callGemini({ messages, max_tokens: safeMaxTokens, temperature: safeTemperature });
     } catch (error) {
-      if (![429, 500, 503, 504].includes(error.status)) throw error;
+      if (![404, 429, 500, 503, 504].includes(error.status) && error.name !== 'GeminiTimeoutError') throw error;
       console.warn('Gemini Flash busy; retrying with Gemini Flash-Lite:', error.message);
       geminiResult = await callGemini({
         messages,

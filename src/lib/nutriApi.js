@@ -2,9 +2,9 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 const buildUrl = (path) => `${API_BASE}${path}`;
 
-const request = async (path, { method = 'GET', body } = {}) => {
+const request = async (path, { method = 'GET', body, timeoutMs = 30000 } = {}) => {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(buildUrl(path), {
       method,
@@ -17,6 +17,11 @@ const request = async (path, { method = 'GET', body } = {}) => {
       throw new Error(data?.error || `HTTP ${response.status}`);
     }
     return data;
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new Error('Permintaan ke AI melewati batas waktu. Coba kirim ulang sebentar lagi.');
+    }
+    throw error;
   } finally {
     clearTimeout(timeout);
   }
@@ -25,7 +30,8 @@ const request = async (path, { method = 'GET', body } = {}) => {
 export const chatCompletion = async ({ messages, max_tokens = 600, temperature = 0.7 }) => {
   return request('/api/chat/completions', {
     method: 'POST',
-    body: { messages, max_tokens, temperature }
+    body: { messages, max_tokens, temperature },
+    timeoutMs: 35000
   });
 };
 
