@@ -22,6 +22,14 @@ const cleanVisionLabel = (value) => String(value || '')
   .split(/[.!?\n]/)[0]
   .trim();
 
+const visionFailureMessage = (error) => {
+  if ([401, 403].includes(error.status)) return 'Kunci Gemini tidak dapat digunakan. Periksa GEMINI_API_KEY pada backend Vercel.';
+  if (error.status === 404) return 'Model Gemini untuk identifikasi foto tidak tersedia pada backend.';
+  if (error.status === 429) return 'Kuota atau batas permintaan Gemini tercapai. Coba lagi nanti.';
+  const status = error.status ? `HTTP ${error.status}` : 'koneksi';
+  return `Identifikasi Gemini gagal (${status}): ${String(error.message || 'layanan tidak merespons').slice(0, 160)}`;
+};
+
 const resolveLocalDrink = (value) => {
   const normalized = String(value || '').toLowerCase();
   if (/(lemon|infused|air lemon)/i.test(normalized)) return VERIFIED_DRINKS.find((drink) => drink.id === 'lemon-water');
@@ -108,8 +116,10 @@ export default async function handler(req, res) {
     }
 
     // Identify the photographed food or drink with the server-side Gemini key.
+    let visionError = null;
     const visionLabel = imageB64
       ? await identifyImageWithGemini(imageB64).catch((err) => {
+        visionError = err;
         console.warn('Gemini image recognition failed:', err.message);
         return null;
       })
@@ -171,9 +181,18 @@ export default async function handler(req, res) {
       }
     }
 
+    if (visionError) {
+      return json(res, 502, {
+        ok: false,
+        error: `${visionFailureMessage(visionError)} Pilih makanan di katalog atau coba lagi.`
+      });
+    }
+
     return json(res, 404, {
       ok: false,
-      error: 'Label makanan atau minuman belum terbaca. Pilih jenis yang paling sesuai di atas, lalu tekan Analisis Gizi lagi.'
+      error: visionLabel
+        ? `AI mengenali "${visionLabel}", tetapi belum ada padanan di katalog gizi. Pilih jenis yang paling sesuai di atas, lalu analisis lagi.`
+        : 'AI belum mengenali makanan atau minuman pada foto. Pastikan objek terlihat jelas atau pilih jenis yang sesuai di katalog.'
     });
   } catch (error) {
     return json(res, 500, { ok: false, error: error.message || 'Analisis gagal' });
