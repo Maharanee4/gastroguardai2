@@ -25,7 +25,7 @@ The root `.env` is ignored by Git. Commit `.env.example` only; it contains varia
 - The frontend calls API routes on the same Vercel domain. Leave `VITE_API_BASE_URL` unset.
 - `GEMINI_API_KEY` and `FATSECRET_CLIENT_SECRET` must remain server-side; never rename them to `VITE_*`.
 
-GitHub Pages publishes static files only and cannot run the functions in `api/`. The Vercel deployment is the live version for AI scanning and chat.
+GitHub Pages publishes the built static frontend through `.github/workflows/deploy-pages.yml`; it cannot run the functions in `api/`, so AI scanning and chat require the Vercel deployment. In the repository's **Settings → Pages**, set the build and deployment source to **GitHub Actions**.
 
 Firebase web configuration and the Supabase anon key are client-side values, not server secrets. Protect their use with Firebase/Supabase security rules and provider-side restrictions. Never put a Supabase `service_role` key in a `VITE_*` variable.
 
