@@ -18,7 +18,7 @@ const BottomNav = () => {
                 <Activity aria-hidden="true"/><span>Prediksi</span>
             </NavLink>
             <NavLink to="/scan" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                <Camera aria-hidden="true"/><span>AyuScan</span>
+                <Camera aria-hidden="true"/><span>Food Scan</span>
             </NavLink>
             <button type="button" className="nav-item" onClick={openHerbalGuide}>
                 <Leaf aria-hidden="true"/><span>Herbal</span>

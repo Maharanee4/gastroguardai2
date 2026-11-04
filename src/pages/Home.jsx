@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowDownRight, ArrowUpRight, Check, ClipboardCheck, HeartPulse, MapPin, MessageCircle, Phone, ShieldCheck, Utensils, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowDownRight, ArrowUpRight, Check, ClipboardCheck, Gamepad2, HeartPulse, MapPin, MessageCircle, Phone, ShieldCheck, Utensils, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import GastroBot from '../components/GastroBot';
 import ClinicLocator from '../components/ClinicLocator';
@@ -14,6 +14,9 @@ const checklistItems = ['Oralit / P3K cerna', 'Air minum kemasan tersegel', 'Oba
 
 export default function Home() {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [checked, setChecked] = useState({});
   const [username, setUsername] = useState(() => localStorage.getItem('moodify_currentUser') || '');
   const [loginOpen, setLoginOpen] = useState(false);
@@ -58,7 +61,7 @@ export default function Home() {
             <h1 id="hero-title">Nikmati perjalanan.<br/><span>Jaga pencernaan.</span></h1>
             <p>Asisten cerdas untuk menjaga kesehatan pencernaan dan keamanan pangan di setiap perjalanan.</p>
             <div className="gg-hero-actions">
-              <Link className="gg-button gg-button-primary" to="/predict">Rencanakan dengan Gut-Predict <ArrowUpRight size={16}/></Link>
+              <Link className="gg-button gg-button-primary" to="/predict">Rencanakan dengan Gastro Predict <ArrowUpRight size={16}/></Link>
               <button className="gg-text-link" type="button" onClick={() => goToSection('tools')}>Lihat semua panduan <ArrowDownRight size={16}/></button>
             </div>
             <div className="gg-trust"><span><i/> Panduan preventif</span><span><i/> Dibuat untuk pelancong tropis</span></div>
@@ -87,16 +90,18 @@ export default function Home() {
             <p>Alat praktis untuk merencanakan perjalanan, memilih makanan, dan mendapatkan bantuan.</p>
           </div>
           <div className="gg-tool-list">
-            <Link to="/predict" className="gg-tool-row"><span className="gg-tool-index">01</span><img src={publicAsset('gastroguard-assets/features/gut-predict.png')} alt=""/><span className="gg-tool-copy"><b>Gut-Predict Engine</b><small>Model ARIMAX dan faktor risiko destinasi</small></span><ArrowUpRight size={19}/></Link>
-            <button type="button" className="gg-tool-row" onClick={() => navigate('/scan')}><span className="gg-tool-index">02</span><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt=""/><span className="gg-tool-copy"><b>AyuScan</b><small>Panduan memilih sajian lokal</small></span><ArrowUpRight size={19}/></button>
+            <Link to="/predict" className="gg-tool-row"><span className="gg-tool-index">01</span><img src={publicAsset('gastroguard-assets/features/gut-predict.png')} alt=""/><span className="gg-tool-copy"><b>Gastro Predict</b><small>Model ARIMAX dan faktor risiko destinasi</small></span><ArrowUpRight size={19}/></Link>
+            <button type="button" className="gg-tool-row" onClick={() => navigate('/scan')}><span className="gg-tool-index">02</span><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt=""/><span className="gg-tool-copy"><b>Food Scan</b><small>Panduan memilih sajian lokal</small></span><ArrowUpRight size={19}/></button>
             <button type="button" className="gg-tool-row" onClick={() => goToSection('herbal')}><span className="gg-tool-index">03</span><img src={publicAsset('gastroguard-assets/features/herbal-guide.png')} alt=""/><span className="gg-tool-copy"><b>Herbal & kearifan lokal</b><small>Panduan tradisional dan kehati-hatian</small></span><ArrowUpRight size={19}/></button>
             <Link to="/gastrobot" className="gg-tool-row"><span className="gg-tool-index">04</span><img src={publicAsset('gastroguard-assets/features/gastrobot.png')} alt=""/><span className="gg-tool-copy"><b>GastroBot</b><small>Konseling pencernaan dan pertolongan awal</small></span><ArrowUpRight size={19}/></Link>
+            <button type="button" className="gg-tool-row" onClick={() => goToSection('gastrobot')}><span className="gg-tool-index">05</span><span className="gg-tool-icon"><MapPin size={25}/></span><span className="gg-tool-copy"><b>Rumah Sakit &amp; Puskesmas Terdekat</b><small>Temukan layanan kesehatan di sekitar</small></span><ArrowUpRight size={19}/></button>
+            <Link to="/games" className="gg-tool-row"><span className="gg-tool-index">06</span><span className="gg-tool-icon"><Gamepad2 size={25}/></span><span className="gg-tool-copy"><b>Games</b><small>Permainan ringan untuk menemani perjalanan</small></span><ArrowUpRight size={19}/></Link>
           </div>
         </section>
 
         <section id="scan" className="gg-section gg-scan-section">
-          <div className="gg-section-head"><div><span className="gg-kicker">02 / AYUSCAN</span><h2>Pilih makanan dengan lebih yakin</h2><p>Pindai foto, cocokkan dengan katalog makanan, dan pelajari cara memilih hidangan yang lebih aman.</p></div><span className="gg-section-icon orange gg-section-image"><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt="" /></span></div>
-          <div className="gg-card gg-scan-launch"><div className="gg-scan-launch-icon"><Utensils size={24}/></div><div><b>Analisis hidangan dari foto atau katalog</b><p>AyuScan membandingkan hasil identifikasi visual dengan data gizi terverifikasi. Foto tidak dapat memastikan keamanan mikrobiologis makanan.</p></div><Link className="gg-button gg-button-teal" to="/scan">Buka AyuScan <ArrowUpRight size={16}/></Link></div>
+          <div className="gg-section-head"><div><span className="gg-kicker">02 / FOOD SCAN</span><h2>Pilih makanan dengan lebih yakin</h2><p>Pindai foto, cocokkan dengan katalog makanan, dan pelajari cara memilih hidangan yang lebih aman.</p></div><span className="gg-section-icon orange gg-section-image"><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt="" /></span></div>
+          <div className="gg-card gg-scan-launch"><div className="gg-scan-launch-icon"><Utensils size={24}/></div><div><b>Analisis hidangan dari foto atau katalog</b><p>Food Scan membandingkan hasil identifikasi visual dengan data gizi terverifikasi. Foto tidak dapat memastikan keamanan mikrobiologis makanan.</p></div><Link className="gg-button gg-button-teal" to="/scan">Buka Food Scan <ArrowUpRight size={16}/></Link></div>
         </section>
 
         <section id="herbal" className="gg-section gg-herbal-section">
@@ -119,14 +124,14 @@ export default function Home() {
 
         <section className="gg-closing-cta" aria-labelledby="closing-title">
           <div><span className="gg-kicker">SATU LANGKAH SEBELUM BERANGKAT</span><h2 id="closing-title">Mulai dari pilihan yang ingin kamu pahami.</h2><p>Gunakan informasi yang tersedia sebagai panduan, dan hubungi tenaga kesehatan untuk keluhan yang membutuhkan pemeriksaan.</p></div>
-          <div className="gg-closing-actions"><Link className="gg-button gg-button-light" to="/scan">Jelajahi AyuScan <ArrowUpRight size={16}/></Link><Link className="gg-closing-text" to="/gastrobot">Tanya GastroBot <MessageCircle size={16}/></Link></div>
+          <div className="gg-closing-actions"><Link className="gg-button gg-button-light" to="/scan">Jelajahi Food Scan <ArrowUpRight size={16}/></Link><Link className="gg-closing-text" to="/gastrobot">Tanya GastroBot <MessageCircle size={16}/></Link></div>
         </section>
       </main>
 
       <footer className="gg-footer gg-site-footer">
         <Link className="gg-brand" to="/home"><img className="gg-brand-mark gg-brand-logo" src={publicAsset('gastroguard-assets/logo.png')} alt=""/><span className="gg-brand-name"><b>GastroGuard <em>AI</em></b><small>Kesehatan perjalanan</small></span></Link>
         <p>Informasi bersifat edukatif dan tidak menggantikan diagnosis atau perawatan tenaga kesehatan profesional.</p>
-        <div className="gg-footer-links"><Link to="/predict">Gut-Predict</Link><Link to="/scan">AyuScan</Link><Link to="/gastrobot">GastroBot</Link><a href="tel:112"><Phone size={14}/> Darurat 112</a></div>
+        <div className="gg-footer-links"><Link to="/predict">Gastro Predict</Link><Link to="/scan">Food Scan</Link><Link to="/gastrobot">GastroBot</Link><a href="tel:112"><Phone size={14}/> Darurat 112</a></div>
         <span>© 2026 GastroGuard AI</span>
       </footer>
 
