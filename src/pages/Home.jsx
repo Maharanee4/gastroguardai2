@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowDownRight, ArrowUpRight, Check, ClipboardCheck, Gamepad2, HeartPulse, MapPin, MessageCircle, Phone, ShieldCheck, Utensils, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Check, ClipboardCheck, HeartPulse, MapPin, MessageCircle, Phone, ShieldCheck, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import GastroBot from '../components/GastroBot';
 import ClinicLocator from '../components/ClinicLocator';
@@ -7,7 +7,6 @@ import HerbalGuide from '../components/HerbalGuide';
 import GutDefender from '../components/GutDefender';
 import SiteHeader from '../components/SiteHeader';
 import { publicAsset } from '../lib/publicAsset';
-import travelMealArt from '../assets/travel-meal.svg';
 import './Home.css';
 
 const checklistItems = ['Oralit / P3K cerna', 'Air minum kemasan tersegel', 'Obat pribadi & anti-mual', 'Probiotik (opsional)', 'Tisu & hand sanitizer'];
@@ -67,7 +66,7 @@ export default function Home() {
             <div className="gg-trust"><span><i/> Panduan preventif</span><span><i/> Dibuat untuk pelancong tropis</span></div>
           </div>
           <figure className="gg-hero-visual">
-            <img src={travelMealArt} alt="Ilustrasi sajian lokal di atas peta perjalanan, dengan penanda Bali" />
+            <img src={publicAsset('gastroguard-assets/cover.png')} alt="Tenaga kesehatan dan pelancong bersama menjaga kesehatan selama perjalanan" />
             <figcaption><MapPin size={15}/><span>Bekal informasi untuk pilihan yang lebih tenang.</span></figcaption>
           </figure>
         </section>
@@ -90,22 +89,22 @@ export default function Home() {
             <p>Alat praktis untuk merencanakan perjalanan, memilih makanan, dan mendapatkan bantuan.</p>
           </div>
           <div className="gg-tool-list">
-            <Link to="/predict" className="gg-tool-row"><span className="gg-tool-index">01</span><img src={publicAsset('gastroguard-assets/features/gut-predict.png')} alt=""/><span className="gg-tool-copy"><b>Gastro Predict</b><small>Model ARIMAX dan faktor risiko destinasi</small></span><ArrowUpRight size={19}/></Link>
-            <button type="button" className="gg-tool-row" onClick={() => navigate('/scan')}><span className="gg-tool-index">02</span><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt=""/><span className="gg-tool-copy"><b>Food Scan</b><small>Panduan memilih sajian lokal</small></span><ArrowUpRight size={19}/></button>
-            <button type="button" className="gg-tool-row" onClick={() => goToSection('herbal')}><span className="gg-tool-index">03</span><img src={publicAsset('gastroguard-assets/features/herbal-guide.png')} alt=""/><span className="gg-tool-copy"><b>Herbal & kearifan lokal</b><small>Panduan tradisional dan kehati-hatian</small></span><ArrowUpRight size={19}/></button>
+            <Link to="/predict" className="gg-tool-row"><span className="gg-tool-index">01</span><img src={publicAsset('gastroguard-assets/features/gastro-predict.png')} alt=""/><span className="gg-tool-copy"><b>Gastro Predict</b><small>Model ARIMAX dan faktor risiko destinasi</small></span><ArrowUpRight size={19}/></Link>
+            <button type="button" className="gg-tool-row" onClick={() => navigate('/scan')}><span className="gg-tool-index">02</span><img src={publicAsset('gastroguard-assets/features/food-scan.png')} alt=""/><span className="gg-tool-copy"><b>Food Scan</b><small>Panduan memilih sajian lokal</small></span><ArrowUpRight size={19}/></button>
+            <button type="button" className="gg-tool-row" onClick={() => goToSection('herbal')}><span className="gg-tool-index">03</span><img src={publicAsset('gastroguard-assets/features/herbal-kearifan-lokal.png')} alt=""/><span className="gg-tool-copy"><b>Herbal & kearifan lokal</b><small>Panduan tradisional dan kehati-hatian</small></span><ArrowUpRight size={19}/></button>
             <Link to="/gastrobot" className="gg-tool-row"><span className="gg-tool-index">04</span><img src={publicAsset('gastroguard-assets/features/gastrobot.png')} alt=""/><span className="gg-tool-copy"><b>GastroBot</b><small>Konseling pencernaan dan pertolongan awal</small></span><ArrowUpRight size={19}/></Link>
-            <button type="button" className="gg-tool-row" onClick={() => goToSection('gastrobot')}><span className="gg-tool-index">05</span><span className="gg-tool-icon"><MapPin size={25}/></span><span className="gg-tool-copy"><b>Rumah Sakit &amp; Puskesmas Terdekat</b><small>Temukan layanan kesehatan di sekitar</small></span><ArrowUpRight size={19}/></button>
-            <Link to="/games" className="gg-tool-row"><span className="gg-tool-index">06</span><span className="gg-tool-icon"><Gamepad2 size={25}/></span><span className="gg-tool-copy"><b>Games</b><small>Permainan ringan untuk menemani perjalanan</small></span><ArrowUpRight size={19}/></Link>
+            <button type="button" className="gg-tool-row" onClick={() => goToSection('gastrobot')}><span className="gg-tool-index">05</span><img src={publicAsset('gastroguard-assets/features/rumah-sakit-terdekat.png')} alt=""/><span className="gg-tool-copy"><b>Rumah Sakit &amp; Puskesmas Terdekat</b><small>Temukan layanan kesehatan di sekitar</small></span><ArrowUpRight size={19}/></button>
+            <Link to="/games" className="gg-tool-row"><span className="gg-tool-index">06</span><img src={publicAsset('gastroguard-assets/features/games-pasang-jawaban.png')} alt=""/><span className="gg-tool-copy"><b>Games</b><small>Permainan ringan untuk menemani perjalanan</small></span><ArrowUpRight size={19}/></Link>
           </div>
         </section>
 
         <section id="scan" className="gg-section gg-scan-section">
-          <div className="gg-section-head"><div><span className="gg-kicker">02 / FOOD SCAN</span><h2>Pilih makanan dengan lebih yakin</h2><p>Pindai foto, cocokkan dengan katalog makanan, dan pelajari cara memilih hidangan yang lebih aman.</p></div><span className="gg-section-icon orange gg-section-image"><img src={publicAsset('gastroguard-assets/features/ayuscan.png')} alt="" /></span></div>
-          <div className="gg-card gg-scan-launch"><div className="gg-scan-launch-icon"><Utensils size={24}/></div><div><b>Analisis hidangan dari foto atau katalog</b><p>Food Scan membandingkan hasil identifikasi visual dengan data gizi terverifikasi. Foto tidak dapat memastikan keamanan mikrobiologis makanan.</p></div><Link className="gg-button gg-button-teal" to="/scan">Buka Food Scan <ArrowUpRight size={16}/></Link></div>
+          <div className="gg-section-head"><div><span className="gg-kicker">02 / FOOD SCAN</span><h2>Pilih makanan dengan lebih yakin</h2><p>Pindai foto, cocokkan dengan katalog makanan, dan pelajari cara memilih hidangan yang lebih aman.</p></div><span className="gg-section-icon orange gg-section-image"><img src={publicAsset('gastroguard-assets/features/food-scan.png')} alt="" /></span></div>
+          <div className="gg-card gg-scan-launch"><img className="gg-scan-launch-icon" src={publicAsset('gastroguard-assets/features/food-scan.png')} alt="" /><div><b>Analisis hidangan dari foto atau katalog</b><p>Food Scan membandingkan hasil identifikasi visual dengan data gizi terverifikasi. Foto tidak dapat memastikan keamanan mikrobiologis makanan.</p></div><Link className="gg-button gg-button-teal" to="/scan">Buka Food Scan <ArrowUpRight size={16}/></Link></div>
         </section>
 
         <section id="herbal" className="gg-section gg-herbal-section">
-          <div className="gg-section-head"><div><span className="gg-kicker">03 / KEARIFAN LOKAL</span><h2>Herbal & kenyamanan pencernaan</h2><p>Kenali penggunaan tradisional beserta batas bukti dan kewaspadaannya.</p></div><span className="gg-section-icon gg-section-image"><img src={publicAsset('gastroguard-assets/features/herbal-guide.png')} alt="" /></span></div>
+          <div className="gg-section-head"><div><span className="gg-kicker">03 / KEARIFAN LOKAL</span><h2>Herbal & kenyamanan pencernaan</h2><p>Kenali penggunaan tradisional beserta batas bukti dan kewaspadaannya.</p></div><span className="gg-section-icon gg-section-image"><img src={publicAsset('gastroguard-assets/features/herbal-kearifan-lokal.png')} alt="" /></span></div>
           <HerbalGuide/>
         </section>
 
