@@ -1,0 +1,39 @@
+.gg-games-main { width: min(100% - 56px, 1040px); margin: 0 auto; padding: 58px 0 96px; }
+.gg-games-intro { max-width: 700px; margin: 0 auto 34px; text-align: center; }
+.gg-games-intro .gg-kicker { justify-content: center; }
+.gg-games-intro h1 { margin: 14px 0 10px; color: var(--gg-ink); font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -.055em; line-height: 1.12; }
+.gg-games-intro > p { margin: 0; color: var(--gg-copy); font-size: 15px; line-height: 1.7; }
+.gg-games-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.gg-game-card { display: grid; grid-template-columns: minmax(145px, .75fr) minmax(0, 1fr); align-items: center; gap: 22px; min-width: 0; padding: 22px; border: 1px solid var(--gg-line); border-radius: 16px; background: white; }
+.gg-game-card.match { background: linear-gradient(135deg, #f3f8ff, #fff 62%); }
+.gg-game-card.puzzle { background: linear-gradient(135deg, #fff4f7, #fff 62%); }
+.gg-game-art { display: grid; place-items: center; min-width: 0; aspect-ratio: 1; padding: 8px; border-radius: 13px; background: white; }
+.gg-game-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.gg-game-content { min-width: 0; }
+.gg-game-label { color: var(--gg-muted); font-size: 9px; font-weight: 750; letter-spacing: .1em; }
+.gg-game-content h2 { margin: 9px 0 7px; color: var(--gg-ink); font-size: clamp(18px, 2vw, 23px); font-weight: 700; letter-spacing: -.035em; line-height: 1.25; }
+.gg-game-content p { margin: 0 0 17px; color: var(--gg-copy); font-size: 12px; line-height: 1.65; }
+.gg-game-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 41px; padding: 0 13px; border-radius: 9px; background: var(--gg-teal); color: white; font-size: 11px; font-weight: 700; transition: background-color .18s ease, transform .18s ease; }
+.gg-game-link:hover { transform: translateY(-1px); background: var(--gg-teal-dark); }
+.gg-legacy-game-link { display: flex; align-items: center; gap: 12px; width: max-content; max-width: 100%; margin: 24px auto 0; padding: 12px 16px; border: 1px solid var(--gg-line); border-radius: 12px; background: white; }
+.gg-legacy-game-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border-radius: 10px; background: #eef2e9; color: var(--gg-forest); }
+.gg-legacy-game-link b, .gg-legacy-game-link small { display: block; }
+.gg-legacy-game-link b { color: var(--gg-ink); font-size: 12px; }
+.gg-legacy-game-link small { margin-top: 3px; color: var(--gg-muted); font-size: 10px; }
+.gg-legacy-game-arrow { margin-left: 8px; color: var(--gg-teal); font-size: 20px; }
+
+@media (max-width: 760px) {
+  .gg-games-main { width: min(100% - 36px, 560px); padding-top: 38px; }
+  .gg-games-grid { grid-template-columns: 1fr; gap: 14px; }
+  .gg-game-card { grid-template-columns: minmax(120px, .7fr) minmax(0, 1fr); gap: 17px; padding: 17px; }
+}
+
+@media (max-width: 420px) {
+  .gg-games-main { width: calc(100% - 28px); padding-top: 28px; }
+  .gg-games-intro { margin-bottom: 24px; }
+  .gg-games-intro > p { font-size: 13px; }
+  .gg-game-card { grid-template-columns: 108px minmax(0, 1fr); gap: 13px; padding: 12px; }
+  .gg-game-content h2 { font-size: 17px; }
+  .gg-game-content p { font-size: 11px; }
+  .gg-game-link { min-height: 38px; font-size: 10px; }
+}

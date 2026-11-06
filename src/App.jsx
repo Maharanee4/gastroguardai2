@@ -4,6 +4,7 @@ import PredictionPage from './pages/PredictionPage';
 import GastroBotPage from './pages/GastroBotPage';
 import Scan from './pages/Scan';
 import JoyGame from './pages/JoyGame';
+import GamesMenu from './pages/GamesMenu';
 import BottomNav from './components/BottomNav';
 import './index.css';
 import './styles/redesign.css';
@@ -18,7 +19,8 @@ function AppLayout() {
       <Route path="/gastrobot" element={<GastroBotPage/>}/>
       <Route path="/chat" element={<GastroBotPage/>}/>
       <Route path="/scan" element={<Scan/>}/>
-      <Route path="/games" element={<JoyGame/>}/>
+      <Route path="/games" element={<GamesMenu/>}/>
+      <Route path="/games/tangkap-kebahagiaan" element={<JoyGame/>}/>
       <Route path="/tracking" element={<Home/>}/>
       <Route path="/checklist" element={<Home/>}/>
       <Route path="/education" element={<Home/>}/>
