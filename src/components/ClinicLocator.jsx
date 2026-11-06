@@ -7,6 +7,12 @@ import './ClinicLocator.css';
 
 const SEARCH_RADIUS_METERS = 6000;
 const INITIAL_CENTER = [-8.5069, 115.2625];
+const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
+const SEARCH_TERMS = ['hospital', 'clinic', 'puskesmas', 'pharmacy'];
+const NOMINATIM_REQUEST_INTERVAL_MS = 1100;
+const REQUEST_TIMEOUT_MS = 12000;
+let lastNominatimRequestAt = 0;
+
 const distanceMeters = (aLat, aLon, bLat, bLon) => {
   const radians = (n) => n * Math.PI / 180;
   const dLat = radians(bLat - aLat);
@@ -15,15 +21,72 @@ const distanceMeters = (aLat, aLon, bLat, bLon) => {
   return 6371000 * 2 * Math.atan2(Math.sqrt(value), Math.sqrt(1 - value));
 };
 const prettyDistance = (meters) => meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
-const facilityType = (tags = {}) => {
-  if (/puskesmas/i.test(tags.name || '')) return 'Puskesmas';
-  if (tags.amenity === 'hospital') return 'Rumah sakit';
-  if (tags.amenity === 'clinic' || tags.healthcare === 'clinic') return 'Klinik';
-  if (tags.amenity === 'pharmacy' || tags.healthcare === 'pharmacy') return 'Apotek';
-  if (tags.amenity === 'doctors') return 'Praktik dokter';
+const facilityType = (facility, searchTerm) => {
+  if (/puskesmas|pusat kesehatan masyarakat|uptd? kesmas/i.test(facility.name || '')) return 'Puskesmas';
+  if (/clinic|klinik|medical|health cent(er|re)/i.test(facility.name || '')) return 'Klinik';
+  if (searchTerm === 'hospital' || facility.type === 'hospital') return 'Rumah sakit';
+  if (searchTerm === 'pharmacy' || facility.type === 'pharmacy') return 'Apotek';
+  if (facility.type === 'doctors' || facility.type === 'doctor') return 'Praktik dokter';
+  if (searchTerm === 'clinic' || facility.type === 'clinic' || facility.type === 'health_centre') return 'Klinik';
   return 'Fasilitas kesehatan';
 };
 const iconFor = (color) => L.divIcon({ className: 'gg-leaflet-icon', html: `<span style="--marker:${color}"><i></i></span>`, iconSize: [27, 27], iconAnchor: [13, 13] });
+
+const waitForNominatim = async () => {
+  const wait = NOMINATIM_REQUEST_INTERVAL_MS - (Date.now() - lastNominatimRequestAt);
+  if (wait > 0) await new Promise((resolve) => window.setTimeout(resolve, wait));
+  lastNominatimRequestAt = Date.now();
+};
+
+const searchNearbyFacilities = async (lat, lon) => {
+  const latitudeOffset = SEARCH_RADIUS_METERS / 111320;
+  const longitudeOffset = SEARCH_RADIUS_METERS / (111320 * Math.cos(lat * Math.PI / 180));
+  const viewbox = [
+    lon - longitudeOffset,
+    lat + latitudeOffset,
+    lon + longitudeOffset,
+    lat - latitudeOffset,
+  ].join(',');
+  const matches = [];
+  const failedTerms = [];
+
+  for (const searchTerm of SEARCH_TERMS) {
+    await waitForNominatim();
+    const url = new URL(NOMINATIM_ENDPOINT);
+    url.search = new URLSearchParams({
+      q: searchTerm,
+      format: 'jsonv2',
+      viewbox,
+      bounded: '1',
+      limit: '40',
+      addressdetails: '1',
+      extratags: '1',
+    });
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(url, {
+        headers: { Accept: 'application/json', 'Accept-Language': 'id' },
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error(`OpenStreetMap merespons dengan status ${response.status}.`);
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('Respons pencarian OpenStreetMap tidak valid.');
+      matches.push(...data.map((facility) => ({ ...facility, searchTerm })));
+    } catch {
+      failedTerms.push(searchTerm);
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  if (failedTerms.length === SEARCH_TERMS.length) {
+    throw new Error('Layanan pencarian OpenStreetMap sedang tidak dapat dihubungi. Periksa koneksi internet dan coba lagi.');
+  }
+
+  return { matches, failedTerms };
+};
 
 export default function ClinicLocator() {
   const mapNode = useRef(null);
@@ -55,21 +118,34 @@ export default function ClinicLocator() {
       const lon = position.coords.longitude;
       setCenter([lat, lon]);
       mapRef.current?.setView([lat, lon], 14);
+      setFacilities([]);
       setStatus('Mencari rumah sakit, klinik, puskesmas, dan apotek dalam radius 6 km…');
       layerRef.current?.clearLayers();
       L.marker([lat, lon], { icon: iconFor('#0d9488') }).addTo(layerRef.current).bindPopup('Lokasimu');
-      const query = `[out:json][timeout:25];(node[amenity~"^(hospital|clinic|doctors|pharmacy)$"](around:${SEARCH_RADIUS_METERS},${lat},${lon});way[amenity~"^(hospital|clinic|doctors|pharmacy)$"](around:${SEARCH_RADIUS_METERS},${lat},${lon});relation[amenity~"^(hospital|clinic|doctors|pharmacy)$"](around:${SEARCH_RADIUS_METERS},${lat},${lon});node[healthcare~"^(hospital|clinic|doctor|pharmacy)$"](around:${SEARCH_RADIUS_METERS},${lat},${lon});way[healthcare~"^(hospital|clinic|doctor|pharmacy)$"](around:${SEARCH_RADIUS_METERS},${lat},${lon}););out center tags;`;
       try {
-        const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error('OpenStreetMap tidak dapat dijangkau.');
-        const data = await response.json();
-        const results = (data.elements || []).map((element) => {
-          const point = element.type === 'node' ? { lat: element.lat, lon: element.lon } : element.center;
-          if (!point) return null;
-          const distance = distanceMeters(lat, lon, point.lat, point.lon);
-          return { id: `${element.type}-${element.id}`, name: element.tags?.name || facilityType(element.tags), type: facilityType(element.tags), lat: point.lat, lon: point.lon, distance, phone: element.tags?.phone || element.tags?.['contact:phone'] || '', address: [element.tags?.['addr:street'], element.tags?.['addr:city']].filter(Boolean).join(', ') };
+        const { matches, failedTerms } = await searchNearbyFacilities(lat, lon);
+        const results = matches.map((facility) => {
+          const facilityLat = Number(facility.lat);
+          const facilityLon = Number(facility.lon);
+          if (!Number.isFinite(facilityLat) || !Number.isFinite(facilityLon)
+            || facilityLat < -90 || facilityLat > 90 || facilityLon < -180 || facilityLon > 180) return null;
+          const distance = distanceMeters(lat, lon, facilityLat, facilityLon);
+          const address = facility.address || {};
+          const name = facility.name || facility.display_name?.split(',')[0] || facilityType(facility, facility.searchTerm);
+          return {
+            id: `${facility.osm_type || 'place'}-${facility.osm_id || facility.place_id}`,
+            name,
+            type: facilityType({ ...facility, name }, facility.searchTerm),
+            lat: facilityLat,
+            lon: facilityLon,
+            distance,
+            phone: facility.extratags?.phone || facility.extratags?.['contact:phone'] || '',
+            address: [address.road || address.neighbourhood || address.suburb, address.city || address.town || address.village].filter(Boolean).join(', '),
+          };
         }).filter((item) => item && item.distance <= SEARCH_RADIUS_METERS).sort((a, b) => a.distance - b.distance);
-        const deduplicated = results.filter((item, index, list) => list.findIndex((other) => other.name === item.name && Math.abs(other.distance - item.distance) < 50) === index).slice(0, 30);
+        const deduplicated = results.filter((item, index, list) => list.findIndex((other) => (
+          other.id === item.id || (other.name.toLowerCase() === item.name.toLowerCase() && distanceMeters(other.lat, other.lon, item.lat, item.lon) < 50)
+        )) === index).slice(0, 30);
         setFacilities(deduplicated);
         deduplicated.forEach((facility) => {
           const marker = L.marker([facility.lat, facility.lon], { icon: iconFor(facility.type === 'Apotek' ? '#f97316' : '#0f766e') }).addTo(layerRef.current);
@@ -79,14 +155,21 @@ export default function ClinicLocator() {
           popup.append(title, detail);
           marker.bindPopup(popup);
         });
-        setStatus(deduplicated.length ? `${deduplicated.length} fasilitas ditemukan dalam radius 6 km.` : 'Belum ada fasilitas terpetakan dalam radius 6 km. Coba perbarui pencarian.');
+        setStatus(deduplicated.length
+          ? `${deduplicated.length} fasilitas ditemukan dalam radius 6 km${failedTerms.length ? ' (sebagian kategori belum berhasil dimuat)' : ''}.`
+          : 'Belum ada fasilitas terpetakan dalam radius 6 km. Coba perbarui pencarian atau pindah ke area yang lebih dekat dengan pusat layanan.');
+        if (failedTerms.length) setError(`Data untuk sebagian kategori (${failedTerms.join(', ')}) tidak dapat dimuat. Hasil yang tersedia tetap ditampilkan.`);
       } catch (fetchError) {
         setError(fetchError.message || 'Pencarian fasilitas gagal. Coba lagi beberapa saat.');
         setStatus('Pencarian gagal.');
       } finally { setLocating(false); }
     }, (geoError) => {
       setLocating(false);
-      setError(geoError.code === 1 ? 'Izin lokasi tidak diberikan. Aktifkan akses lokasi untuk mencari fasilitas terdekat.' : 'Lokasi perangkat tidak dapat ditentukan. Periksa GPS dan coba lagi.');
+      setError(geoError.code === 1
+        ? 'Izin lokasi tidak diberikan. Aktifkan akses lokasi untuk mencari fasilitas terdekat.'
+        : geoError.code === 3
+          ? 'Pengambilan lokasi terlalu lama. Periksa GPS dan coba lagi.'
+          : 'Lokasi perangkat tidak dapat ditentukan. Periksa GPS dan coba lagi.');
       setStatus('Lokasi belum tersedia.');
     }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
   }, []);
